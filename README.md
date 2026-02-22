@@ -20,7 +20,7 @@ lib/            Shared helpers (common.sh)
 stacks/         Docker compose files
 templates/      Ventoy answer.toml and other templates
 reference/      Build sequences, guides, credits
-tests/          ShellCheck config
+tests/          Test scaffolding
 ```
 
 - `docs/` contains **only** documentation files that have a matching script in `scripts/`.

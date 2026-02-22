@@ -8,7 +8,7 @@ country = "us"
 fqdn = "pve.local"
 mailto = "admin@local"
 timezone = "UTC"
-root_password = "changeme"
+root_password = "changeme"  # CHANGE THIS before use
 
 [network]
 source = "from-dhcp"
