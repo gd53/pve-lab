@@ -1,6 +1,8 @@
 # pve-lab
 
-One-script-per-task Proxmox homelab automation. Inspired by [community-scripts/ProxmoxVE](https://github.com/community-scripts/ProxmoxVE), extended into Docker deployments.
+One-script-per-task Proxmox homelab automation. Idempotent scripts for host setup, networking, and service deployment.
+
+> **Tested on Proxmox VE 9.1+.** Older versions are not supported.
 
 ## Quickstart
 
@@ -40,6 +42,11 @@ Flat `KEY="value"` format. Copy `node.env.template` to `node.env` and fill in yo
 ## Build Sequences
 
 - [Single Server](reference/sequence-single.md) — monolithic single-node setup (start here)
+
+## Reference
+
+- [Credits](reference/CREDITS.md)
+- [Future Scripts](reference/future-scripts.md)
 
 ## License
 
