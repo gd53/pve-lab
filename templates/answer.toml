@@ -1,0 +1,17 @@
+# Proxmox VE Automated Installer — Answer File
+# Used with Ventoy for unattended installs.
+# See: https://pve.proxmox.com/wiki/Automated_Installation
+
+[global]
+keyboard = "en-us"
+country = "us"
+fqdn = "pve.local"
+mailto = "admin@local"
+timezone = "UTC"
+root_password = "changeme"
+
+[network]
+source = "from-dhcp"
+
+[disk-setup]
+filesystem = "ext4"
