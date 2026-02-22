@@ -1,14 +1,12 @@
 # Future Scripts
 
-Scripts planned for later phases. Not part of the current single-server sequence.
+Scripts planned for later phases. Not part of the current build sequences.
 
-## Containers & VMs
+## Docker Services
 
 | Script | Description |
 |--------|-------------|
-| `ct-docker-create.sh` | Create a Debian LXC container for Docker |
-| `ct-docker-setup.sh` | Install Docker + Compose inside the LXC |
-| `docker/<service>.sh` | One script per Docker service (see docker-catalog.md) |
+| `docker/<service>.sh` | One script per Docker service (Jellyfin, Immich, Vaultwarden, etc.) |
 
 ## Hardware
 

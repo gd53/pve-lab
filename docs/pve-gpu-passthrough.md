@@ -8,17 +8,17 @@ Configure GPU passthrough via IOMMU and VFIO for use in virtual machines.
 
 1. **Detect CPU vendor** — determines Intel or AMD for correct IOMMU parameter
 2. **Enable IOMMU** — adds `intel_iommu=on` or `amd_iommu=on` to GRUB
-3. **Load VFIO modules** — adds `vfio`, `vfio_iommu_type1`, `vfio_pci`, `vfio_virqfd` to initramfs
-4. **Blacklist GPU drivers** — prevents the host from claiming the GPU (nouveau, nvidia, radeon, amdgpu)
-5. **Bind GPU to VFIO** — assigns the GPU to VFIO using the configured PCI device IDs
+3. **Load VFIO modules** — adds `vfio`, `vfio_iommu_type1`, `vfio_pci` to `/etc/modules`
+4. **Blacklist GPU driver** — auto-determines driver to block based on GPU_TYPE (nouveau/nvidia for Nvidia, amdgpu for AMD)
+5. **Bind GPU to VFIO** — optionally locks a specific PCI device to the `vfio-pci` driver
 6. **Update initramfs** — rebuilds initramfs with the new module configuration
 
 ## Required Config (`node.env`)
 
 | Variable | Required | Example | Description |
 |----------|----------|---------|-------------|
-| GPU_DEVICE_IDS | **Yes** | `10de:1b80,10de:10f0` | PCI vendor:device IDs for GPU + audio |
-| GPU_BLACKLIST | **Yes** | `nouveau,nvidia` | Drivers to blacklist (comma-separated) |
+| GPU_TYPE | **Yes** | `nvidia` | GPU vendor: `nvidia` or `amd` (blank to skip) |
+| GPU_PCI_ID | No | `01:00.0` | PCI address for VFIO binding (auto-detected if blank) |
 
 ## Usage
 
@@ -34,9 +34,10 @@ bash scripts/pve-gpu-passthrough.sh
 
 ## Notes
 
-- **Requires IOMMU-capable hardware** (VT-d for Intel, AMD-Vi for AMD). Check BIOS settings.
+- If `GPU_TYPE` is blank, the script exits immediately with no changes.
+- **Requires IOMMU-capable hardware** (VT-d for Intel, AMD-Vi for AMD). Must be enabled in BIOS.
 - **Reboot required** after running.
-- Find your GPU's PCI IDs with `lspci -nn | grep -i vga` (and the associated audio device).
-- Verify IOMMU groups after reboot with `find /sys/kernel/iommu_groups/ -type l`.
+- Find your GPU PCI address with `lspci -nn | grep -i vga`.
+- Verify after reboot: `dmesg | grep -i iommu` and `lspci -nnk -s <GPU_PCI_ID>`.
 - The host will lose access to the GPU after passthrough. Use a second GPU or headless console.
 - This script prepares the host. You still need to add the PCI device to a VM in the Proxmox web UI.

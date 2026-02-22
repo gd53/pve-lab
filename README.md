@@ -11,6 +11,8 @@ NAS storage, backups, Docker containers, and everything in between.
 [![ShellCheck](https://img.shields.io/github/actions/workflow/status/gd53/pve-lab/lint.yml?label=ShellCheck&style=flat-square)](https://github.com/gd53/pve-lab/actions)
 [![Shell](https://img.shields.io/badge/Shell-Bash-4EAA25?style=flat-square&logo=gnubash&logoColor=white)]()
 [![Proxmox](https://img.shields.io/badge/Proxmox-VE%209.1+-E57000?style=flat-square&logo=proxmox&logoColor=white)]()
+[![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&logoColor=white)]()
+[![Maintained](https://img.shields.io/badge/Maintained-yes-brightgreen?style=flat-square)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)]()
 
 </div>
@@ -53,7 +55,8 @@ what it does before you run it. Read the doc, fill in your config, run the scrip
 
 ## Build Sequences
 
-- [Single Server](reference/sequence-single.md) — monolithic single-node setup (start here)
+- [Single Server](reference/sequence-single.md) — single-NIC, no firewall VM (start here)
+- [Edge Firewall](reference/sequence-edge.md) — dual-NIC with OPNsense, Docker, the works
 
 ## Structure
 

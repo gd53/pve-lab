@@ -19,7 +19,8 @@ Generate a Ventoy answer.toml for automated Proxmox VE installation.
 | TIMEZONE | **Yes** | `UTC` | System timezone |
 | KEYBOARD | **Yes** | `en-us` | Keyboard layout |
 | COUNTRY | **Yes** | `us` | Locale country code |
-| DISK_FS | **Yes** | `ext4` | Root filesystem (ext4, xfs, zfs, btrfs) |
+| INSTALL_DISK | No | `sda` | Target disk for install (default: sda) |
+| INSTALL_FS | No | `ext4` | Root filesystem (ext4, xfs, zfs, btrfs) |
 | ADMIN_EMAIL | **Yes** | `admin@local` | Notification email |
 
 ## Usage
@@ -40,3 +41,4 @@ Copy `generated/answer.toml` to your Ventoy USB drive.
 - The `generated/` directory is gitignored — output files are not committed.
 - Uses `templates/answer.toml` as the base template.
 - Password is **not** read from config. The template ships with `changeme` — edit the generated file before use.
+- **Ventoy setup**: Download the Proxmox ISO + Ventoy. Create a Ventoy USB, copy the ISO to the root, and place `answer.toml` in the `/ventoy/` directory. Boot from USB to start the automated install.

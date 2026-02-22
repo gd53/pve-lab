@@ -20,6 +20,10 @@ Projects whose software these scripts automate. Full attribution will be expande
 - [OpenMediaVault](https://www.openmediavault.org/) — Debian-based NAS solution
 - [Docker](https://www.docker.com/) — container runtime
 - [Debian](https://www.debian.org/) — base OS for Proxmox VE and container hosts
+- [Pi-hole](https://pi-hole.net/) — network-level DNS ad-blocking
+- [Dockge](https://github.com/louislam/dockge) — Docker Compose stack manager
+- [Watchtower](https://containrrr.dev/watchtower/) — automatic Docker image updater
+- [Nginx Proxy Manager](https://nginxproxymanager.com/) — reverse proxy with Let's Encrypt SSL
 
 ## Tools
 
