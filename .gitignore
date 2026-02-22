@@ -1,0 +1,17 @@
+# Secrets
+node.env
+node-*.env
+
+# Generated artifacts
+generated/
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
