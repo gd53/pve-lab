@@ -4,30 +4,35 @@
 
 Create an OpenMediaVault NAS VM on the Proxmox host with disk passthrough.
 
-## What It Does
+## What This Script Does
 
-- Downloads the OMV ISO to Proxmox local storage (if not already present)
-- Creates a VM with configured resources (CPU, RAM, boot disk)
-- Passes through physical data drives to the VM (if configured)
-- Attaches the VM to the LAN bridge
-- Starts the VM for initial installation
+1. **Download ISO** — downloads the OMV ISO to Proxmox local storage (if not already present)
+2. **Create VM** — creates a VM with configured CPU, RAM, and boot disk
+3. **Pass through data disks** — attaches physical drives to the VM for direct access (if configured)
+4. **Attach to LAN** — connects the VM to the LAN bridge
+5. **Start VM** — boots the VM for initial OMV installation
 
-## Config Needed
+## Required Config (`node.env`)
 
-| Variable | Example | Description |
-|----------|---------|-------------|
-| OMV_VM_ID | 300 | Proxmox VM ID |
-| OMV_VM_RAM | 2048 | RAM in MB |
-| OMV_VM_CORES | 2 | CPU cores |
-| OMV_VM_DISK | 16 | Boot disk size in GB |
-| OMV_LAN_BRIDGE | vmbr1 | Bridge for LAN interface |
-| OMV_DATA_DISKS | /dev/sdb,/dev/sdc | Physical disks to pass through (comma-separated, optional) |
+| Variable | Required | Example | Description |
+|----------|----------|---------|-------------|
+| OMV_VM_ID | **Yes** | `300` | Proxmox VM ID |
+| OMV_VM_RAM | **Yes** | `2048` | RAM in MB |
+| OMV_VM_CORES | **Yes** | `2` | CPU cores |
+| OMV_VM_DISK | **Yes** | `16` | Boot disk size in GB |
+| OMV_LAN_BRIDGE | **Yes** | `vmbr1` | Bridge for LAN interface |
+| OMV_DATA_DISKS | No | `/dev/sdb,/dev/sdc` | Physical disks to pass through (comma-separated) |
 
-## How to Run
+## Usage
 
 ```bash
 bash scripts/omv-vm.sh
 ```
+
+## Idempotency
+
+- Skips VM creation if VM ID already exists
+- Skips ISO download if file already present
 
 ## Notes
 
@@ -37,4 +42,3 @@ bash scripts/omv-vm.sh
 - If no `OMV_DATA_DISKS` are set, the VM is created without passthrough. You can add disks later via the Proxmox web UI.
 - After the VM starts, connect via Proxmox console to run the OMV installer.
 - Default OMV web UI login after install: `admin` / `openmediavault`.
-- Idempotent — skips if VM ID already exists.

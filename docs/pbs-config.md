@@ -4,40 +4,41 @@
 
 Configure Proxmox Backup Server and integrate it with the Proxmox VE host for scheduled backups.
 
-## What It Does
+## What This Script Does
 
-### PBS Setup
+1. **Set hostname and IP** — configures PBS hostname and static IP
+2. **Create datastore** — creates a backup datastore on the dedicated disk
+3. **Create API token** — generates an API token for PVE integration
+4. **Configure garbage collection** — schedules cleanup of old backup chunks
+5. **Set retention policy** — configures daily, weekly, and monthly retention
+6. **Add PBS to PVE** — registers PBS as a storage target on the Proxmox VE host
+7. **Configure trust** — adds the PBS fingerprint for secure communication
+8. **Schedule backups** — sets up automated VM and container backups via `vzdump`
 
-- Sets hostname and static IP
-- Creates a backup datastore on the dedicated disk
-- Creates an API token for PVE integration
-- Configures garbage collection schedule (prune old backups)
-- Sets backup retention policy (daily, weekly, monthly)
+## Required Config (`node.env`)
 
-### PVE Integration
+| Variable | Required | Example | Description |
+|----------|----------|---------|-------------|
+| PBS_IP | **Yes** | `192.168.1.60` | PBS static IP |
+| PBS_HOSTNAME | **Yes** | `pbs` | PBS hostname |
+| PBS_DATASTORE | **Yes** | `backups` | Datastore name |
+| PBS_RETENTION_DAILY | **Yes** | `7` | Keep last N daily backups |
+| PBS_RETENTION_WEEKLY | **Yes** | `4` | Keep last N weekly backups |
+| PBS_RETENTION_MONTHLY | **Yes** | `3` | Keep last N monthly backups |
+| PBS_API_TOKEN | **Yes** | `(generated)` | API token for PVE connection |
+| PBS_BACKUP_SCHEDULE | **Yes** | `daily` | Backup frequency (daily, weekly) |
 
-- Adds PBS as a storage target on the Proxmox VE host
-- Configures the PBS fingerprint for trust
-- Sets up backup schedules for VMs and containers via `vzdump`
-
-## Config Needed
-
-| Variable | Example | Description |
-|----------|---------|-------------|
-| PBS_IP | 192.168.1.60 | PBS static IP |
-| PBS_HOSTNAME | pbs | PBS hostname |
-| PBS_DATASTORE | backups | Datastore name |
-| PBS_RETENTION_DAILY | 7 | Keep last N daily backups |
-| PBS_RETENTION_WEEKLY | 4 | Keep last N weekly backups |
-| PBS_RETENTION_MONTHLY | 3 | Keep last N monthly backups |
-| PBS_API_TOKEN | (generated) | API token for PVE connection |
-| PBS_BACKUP_SCHEDULE | daily | Backup frequency (daily, weekly) |
-
-## How to Run
+## Usage
 
 ```bash
 bash scripts/pbs-config.sh
 ```
+
+## Idempotency
+
+- Skips datastore creation if already exists
+- Skips PVE storage registration if already configured
+- Skips backup schedule if already set
 
 ## Notes
 
@@ -46,4 +47,3 @@ bash scripts/pbs-config.sh
 - The PVE host connects to PBS as a storage target. Once configured, backups and restores are managed from the PVE web UI.
 - API token goes in `node.env` (gitignored, never committed).
 - Verify backups regularly — PBS has a built-in verification job that checks backup integrity.
-- Idempotent — safe to rerun.

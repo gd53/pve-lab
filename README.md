@@ -1,8 +1,38 @@
+<div align="center">
+
 # pve-lab
 
-One-script-per-task Proxmox homelab automation. Idempotent scripts for host setup, networking, and service deployment.
+**Build your Proxmox homelab from scratch, one script at a time.**
 
-> **Tested on Proxmox VE 9.1+.** Older versions are not supported.
+From bare metal to running services — Proxmox host setup, OPNsense firewall,
+NAS storage, backups, Docker containers, and everything in between.
+
+[![License: MIT](https://img.shields.io/github/license/gd53/pve-lab?style=flat-square)](LICENSE)
+[![ShellCheck](https://img.shields.io/github/actions/workflow/status/gd53/pve-lab/lint.yml?label=ShellCheck&style=flat-square)](https://github.com/gd53/pve-lab/actions)
+[![Shell](https://img.shields.io/badge/Shell-Bash-4EAA25?style=flat-square&logo=gnubash&logoColor=white)]()
+[![Proxmox](https://img.shields.io/badge/Proxmox-VE%209.1+-E57000?style=flat-square&logo=proxmox&logoColor=white)]()
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)]()
+
+</div>
+
+---
+
+**pve-lab** is a collection of idempotent shell scripts that automate a
+Proxmox VE homelab build. Each script does one thing, has its own documentation,
+and is safe to rerun. Designed for beginners who want to understand every step.
+
+> Tested on Proxmox VE 9.1+
+
+## What You Get
+
+| Section | What's automated |
+|---------|-----------------|
+| Host Setup | Repos, SSH, firewall, tuning, microcode, GPU passthrough |
+| Networking | OPNsense firewall/router VM, VLANs |
+| Storage | OpenMediaVault NAS with disk passthrough |
+| Backups | Proxmox Backup Server with dedup and retention |
+| DNS | Pi-hole ad-blocking |
+| Docker | LXC host, reverse proxy, services |
 
 ## Quickstart
 
@@ -11,6 +41,19 @@ cp node.env.template node.env
 # Fill in your values
 bash scripts/<script-name>.sh
 ```
+
+## How It Works
+
+Docs-first workflow: every script has a matching doc in `docs/` that explains
+what it does before you run it. Read the doc, fill in your config, run the script.
+
+1. Copy and fill in `node.env`
+2. Follow the [build sequence](reference/sequence-single.md) in order
+3. Each script checks state before acting — safe to rerun if interrupted
+
+## Build Sequences
+
+- [Single Server](reference/sequence-single.md) — monolithic single-node setup (start here)
 
 ## Structure
 
@@ -39,13 +82,11 @@ tests/          Test scaffolding
 
 Flat `KEY="value"` format. Copy `node.env.template` to `node.env` and fill in your values. For multi-node setups, use `node-<name>.env`.
 
-## Build Sequences
-
-- [Single Server](reference/sequence-single.md) — monolithic single-node setup (start here)
-
 ## Reference
 
 - [Credits](reference/CREDITS.md)
+- [Changelog](reference/CHANGELOG.md)
+- [Contributing](.github/CONTRIBUTING.md)
 - [Future Scripts](reference/future-scripts.md)
 
 ## License

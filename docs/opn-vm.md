@@ -4,31 +4,36 @@
 
 Create an OPNsense firewall/router VM on the Proxmox host.
 
-## What It Does
+## What This Script Does
 
-- Downloads the OPNsense ISO to Proxmox local storage (if not already present)
-- Creates a VM with two network interfaces (WAN + LAN bridges)
-- Configures VM resources (CPU, RAM, disk)
-- Sets VirtIO drivers for best performance
-- Starts the VM for initial installation
+1. **Download ISO** — downloads the OPNsense ISO to Proxmox local storage (if not already present)
+2. **Create VM** — creates a VM with two network interfaces (WAN + LAN bridges)
+3. **Configure resources** — sets CPU cores, RAM, and disk size per config
+4. **Set VirtIO drivers** — uses VirtIO for best network and disk performance
+5. **Start VM** — boots the VM for initial OPNsense installation
 
-## Config Needed
+## Required Config (`node.env`)
 
-| Variable | Example | Description |
-|----------|---------|-------------|
-| OPN_VM_ID | 200 | Proxmox VM ID |
-| OPN_VM_RAM | 2048 | RAM in MB |
-| OPN_VM_CORES | 2 | CPU cores |
-| OPN_VM_DISK | 32 | Disk size in GB |
-| OPN_WAN_BRIDGE | vmbr0 | Bridge for WAN interface |
-| OPN_LAN_BRIDGE | vmbr1 | Bridge for LAN interface |
-| OPN_ISO_URL | (auto) | OPNsense ISO download URL (latest if omitted) |
+| Variable | Required | Example | Description |
+|----------|----------|---------|-------------|
+| OPN_VM_ID | **Yes** | `200` | Proxmox VM ID |
+| OPN_VM_RAM | **Yes** | `2048` | RAM in MB |
+| OPN_VM_CORES | **Yes** | `2` | CPU cores |
+| OPN_VM_DISK | **Yes** | `32` | Disk size in GB |
+| OPN_WAN_BRIDGE | **Yes** | `vmbr0` | Bridge for WAN interface |
+| OPN_LAN_BRIDGE | **Yes** | `vmbr1` | Bridge for LAN interface |
+| OPN_ISO_URL | No | `(auto)` | OPNsense ISO download URL (latest if omitted) |
 
-## How to Run
+## Usage
 
 ```bash
 bash scripts/opn-vm.sh
 ```
+
+## Idempotency
+
+- Skips VM creation if VM ID already exists
+- Skips ISO download if file already present
 
 ## Notes
 
@@ -36,4 +41,3 @@ bash scripts/opn-vm.sh
 - Requires two bridges: one for WAN (internet-facing) and one for LAN (internal). Create the LAN bridge (`vmbr1`) in Proxmox first if it doesn't exist.
 - After the VM starts, connect via Proxmox console to run the OPNsense installer.
 - The OPNsense installer will name the bridges `vtnet0` (WAN) and `vtnet1` (LAN). Check MAC addresses in Proxmox to confirm which is which.
-- Idempotent — skips if VM ID already exists.

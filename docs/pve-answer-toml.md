@@ -4,31 +4,35 @@
 
 Generate a Ventoy answer.toml for automated Proxmox VE installation.
 
-## What It Does
+## What This Script Does
 
-- Reads node.env for hostname, network, and install preferences
-- Substitutes values into the answer.toml template
-- Outputs a ready-to-use file to `generated/answer.toml`
+1. **Read config** — reads node.env for hostname, network, and install preferences
+2. **Substitute values** — fills in the answer.toml template with configured values
+3. **Output file** — writes a ready-to-use file to `generated/answer.toml`
 
-## Config Needed
+## Required Config (`node.env`)
 
-| Variable | Example | Description |
-|----------|---------|-------------|
-| NODE_NAME | pve | Hostname for the node |
-| DOMAIN | local | Domain name (combined into FQDN) |
-| TIMEZONE | UTC | System timezone |
-| KEYBOARD | en-us | Keyboard layout |
-| COUNTRY | us | Locale country code |
-| DISK_FS | ext4 | Root filesystem (ext4, xfs, zfs, btrfs) |
-| ADMIN_EMAIL | admin@local | Notification email |
+| Variable | Required | Example | Description |
+|----------|----------|---------|-------------|
+| NODE_NAME | **Yes** | `pve` | Hostname for the node |
+| DOMAIN | **Yes** | `local` | Domain name (combined into FQDN) |
+| TIMEZONE | **Yes** | `UTC` | System timezone |
+| KEYBOARD | **Yes** | `en-us` | Keyboard layout |
+| COUNTRY | **Yes** | `us` | Locale country code |
+| DISK_FS | **Yes** | `ext4` | Root filesystem (ext4, xfs, zfs, btrfs) |
+| ADMIN_EMAIL | **Yes** | `admin@local` | Notification email |
 
-## How to Run
+## Usage
 
 ```bash
 bash scripts/pve-answer-toml.sh
 ```
 
 Copy `generated/answer.toml` to your Ventoy USB drive.
+
+## Idempotency
+
+- Overwrites `generated/answer.toml` on each run (always regenerates from current config)
 
 ## Notes
 

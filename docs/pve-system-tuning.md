@@ -4,38 +4,35 @@
 
 Apply kernel and system performance tuning for a Proxmox host.
 
-## What It Does
+## What This Script Does
 
-### Network
+1. **Enable TCP BBR** — switches to BBR congestion control for better throughput
+2. **Enable TCP Fast Open** — reduces connection latency
+3. **Set swappiness** — sets `vm.swappiness=10` to prefer RAM over swap
+4. **Tune shared memory** — adjusts kernel KSM settings
+5. **Increase inotify watchers** — prevents "too many open files" for containers
+6. **Optimize journald** — sets size limits and persistent storage for systemd journal
+7. **Install haveged** — provides entropy for faster crypto and boot
+8. **Set panic recovery** — enables auto-reboot on kernel panic
 
-- Enables TCP BBR congestion control (better throughput)
-- Enables TCP Fast Open (reduces latency)
-
-### Memory
-
-- Sets swappiness to 10 (prefer RAM over swap)
-- Tunes kernel shared memory (KSM)
-
-### System
-
-- Increases inotify watchers (prevents "too many open files" for containers)
-- Optimizes journald logging (size limits, persistent storage)
-- Installs and enables `haveged` for entropy generation (faster crypto, boot)
-- Sets kernel panic recovery timeout (auto-reboot on panic)
-
-## Config Needed
+## Required Config (`node.env`)
 
 None. Uses sensible defaults that work for most single-node setups.
 
-## How to Run
+## Usage
 
 ```bash
 bash scripts/pve-system-tuning.sh
 ```
+
+## Idempotency
+
+- Skips sysctl settings if already applied
+- Skips journald config if already set
+- Skips haveged install if already present
 
 ## Notes
 
 - Optional but recommended. All tunings are well-established best practices.
 - Kernel parameters are written to `/etc/sysctl.d/` and applied immediately.
 - Reboot recommended for full effect (some kernel params only apply at boot).
-- Idempotent — safe to rerun.

@@ -4,46 +4,42 @@
 
 Apply initial OPNsense configuration after installation.
 
-## What It Does
+## What This Script Does
 
-### Interfaces
+1. **Assign interfaces** — maps WAN and LAN to the correct network interfaces
+2. **Configure LAN** — sets LAN IP address and subnet
+3. **Configure WAN** — sets DHCP or static IP per config
+4. **Enable DHCP server** — starts DHCP on the LAN interface with configured pool range
+5. **Configure DNS** — sets up Unbound DNS resolver
+6. **Set hostname** — configures hostname and domain
+7. **Set timezone and NTP** — configures time synchronization
+8. **Allow LAN management** — permits web UI (port 443) and SSH on LAN
+9. **Set WAN policy** — default deny on WAN inbound
 
-- Assigns WAN and LAN interfaces
-- Sets LAN IP address and subnet
-- Configures WAN (DHCP or static, per config)
+## Required Config (`node.env`)
 
-### Services
+| Variable | Required | Example | Description |
+|----------|----------|---------|-------------|
+| OPN_LAN_IP | **Yes** | `192.168.1.1` | OPNsense LAN IP |
+| OPN_LAN_SUBNET | **Yes** | `24` | LAN subnet CIDR |
+| OPN_DHCP_START | **Yes** | `192.168.1.100` | DHCP pool start |
+| OPN_DHCP_END | **Yes** | `192.168.1.254` | DHCP pool end |
+| OPN_HOSTNAME | **Yes** | `opnsense` | OPNsense hostname |
+| DOMAIN | **Yes** | `local` | Domain name |
+| TIMEZONE | **Yes** | `UTC` | System timezone |
+| OPN_API_KEY | **Yes** | `(generated)` | API key for automation |
+| OPN_API_SECRET | **Yes** | `(generated)` | API secret for automation |
 
-- Enables and configures DHCP server on LAN
-- Configures Unbound DNS resolver
-- Sets hostname and domain
-- Sets timezone and NTP servers
-
-### Firewall
-
-- Allows management access on LAN (web UI on port 443)
-- Allows SSH access on LAN
-- Default deny on WAN inbound
-
-## Config Needed
-
-| Variable | Example | Description |
-|----------|---------|-------------|
-| OPN_LAN_IP | 192.168.1.1 | OPNsense LAN IP |
-| OPN_LAN_SUBNET | 24 | LAN subnet CIDR |
-| OPN_DHCP_START | 192.168.1.100 | DHCP pool start |
-| OPN_DHCP_END | 192.168.1.254 | DHCP pool end |
-| OPN_HOSTNAME | opnsense | OPNsense hostname |
-| DOMAIN | local | Domain name |
-| TIMEZONE | UTC | System timezone |
-| OPN_API_KEY | (generated) | API key for automation |
-| OPN_API_SECRET | (generated) | API secret for automation |
-
-## How to Run
+## Usage
 
 ```bash
 bash scripts/opn-config.sh
 ```
+
+## Idempotency
+
+- Skips interface assignment if already configured
+- Skips service settings if already applied
 
 ## Notes
 

@@ -4,35 +4,36 @@
 
 Configure the Proxmox firewall and install fail2ban for brute-force protection.
 
-## What It Does
+## What This Script Does
 
-### Proxmox Firewall
+1. **Enable datacenter firewall** — turns on the firewall at the datacenter level
+2. **Enable node firewall** — turns on the firewall for this node
+3. **Allow SSH** — adds a rule for the configured SSH port
+4. **Allow web UI** — adds a rule for Proxmox web UI (port 8006)
+5. **Allow ICMP** — permits ping for diagnostics
+6. **Set default policy** — drop incoming, accept outgoing
+7. **Install fail2ban** — installs the fail2ban package
+8. **Configure SSH jail** — bans IPs after repeated failed SSH logins
+9. **Configure web UI jail** — protects the Proxmox web login from brute force
+10. **Start fail2ban** — enables and starts the fail2ban service
 
-- Enables the firewall at the datacenter level
-- Enables the firewall on the node
-- Allows SSH (configurable port)
-- Allows Proxmox web UI (port 8006)
-- Allows ICMP (ping)
-- Default policy: drop incoming, accept outgoing
+## Required Config (`node.env`)
 
-### fail2ban
+| Variable | Required | Example | Description |
+|----------|----------|---------|-------------|
+| SSH_PORT | No | `22` | SSH port (must match pve-ssh-harden) |
 
-- Installs fail2ban
-- Configures an SSH jail (bans IPs after repeated failed logins)
-- Configures a Proxmox web UI jail (protects the web login)
-- Enables and starts the fail2ban service
-
-## Config Needed
-
-| Variable | Example | Description |
-|----------|---------|-------------|
-| SSH_PORT | 22 | SSH port (must match pve-ssh-harden) |
-
-## How to Run
+## Usage
 
 ```bash
 bash scripts/pve-firewall-setup.sh
 ```
+
+## Idempotency
+
+- Skips firewall rules if already present
+- Skips fail2ban install if already installed
+- Skips jail config if already configured
 
 ## Notes
 
@@ -40,4 +41,3 @@ bash scripts/pve-firewall-setup.sh
 - Verify you can SSH in before enabling the firewall. Test in a second terminal.
 - Proxmox firewall is managed via `/etc/pve/firewall/` — these are cluster-aware config files.
 - fail2ban logs to `/var/log/fail2ban.log`. Check banned IPs with `fail2ban-client status sshd`.
-- Idempotent — safe to rerun.
