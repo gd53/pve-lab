@@ -2,7 +2,7 @@
 
 Scripts planned for later phases. Not part of the current build sequences.
 
-Ideas sourced from homelab v1 reference code and project roadmap.
+Ideas sourced from homelab v1 reference code, project roadmap, and refresh v4 analysis.
 
 ## Docker Services
 
@@ -15,6 +15,11 @@ Ideas sourced from homelab v1 reference code and project roadmap.
 | `docker-cloudflared.sh` | Cloudflare Tunnel for zero-trust access without port forwarding |
 | `docker-netbird.sh` | Netbird self-hosted WireGuard mesh VPN (signal + relay) |
 | `docker-caddy-cf.sh` | Custom Caddy build with Cloudflare DNS-01 plugin for wildcard certs |
+| `docker-homepage.sh` | Homepage dashboard with service status widgets and organized categories |
+| `docker-dozzle.sh` | Dozzle real-time container log viewer |
+| `docker-authelia.sh` | Authelia SSO + 2FA with reverse proxy forward-auth integration |
+| `docker-monitoring-stack.sh` | Prometheus + Grafana + node-exporter + cAdvisor metrics stack |
+| `docker-scrutiny.sh` | Scrutiny disk SMART health monitoring with alerting |
 
 ## Hardware
 
@@ -22,6 +27,11 @@ Ideas sourced from homelab v1 reference code and project roadmap.
 |--------|-------------|
 | `pve-coral-passthrough.sh` | Google Coral TPU passthrough for AI/ML workloads |
 | `pve-gpu-docker.sh` | NVIDIA Container Toolkit + driver install for GPU containers in VM |
+| `pve-bios-verify.sh` | Post-boot BIOS setting verification via dmidecode, dmesg, lscpu |
+| `pve-hw-validate.sh` | Hardware validation — memtester, stress-ng with thermals, SMART, NIC speed |
+| `pve-disk-erase.sh` | Secure disk erasure for SATA (blkdiscard/hdparm) and NVMe (nvme format) |
+| `pve-hw-inventory.sh` | Auto-discover and catalog hardware as structured YAML/JSON |
+| `pve-power-monitor.sh` | Monitor per-node power consumption via IPMI/smart plug APIs |
 
 ## Networking
 
@@ -30,14 +40,21 @@ Ideas sourced from homelab v1 reference code and project roadmap.
 | `opn-wireguard.sh` | WireGuard VPN configuration on OPNsense |
 | `opn-haproxy.sh` | HAProxy reverse proxy configuration on OPNsense |
 | `opn-vlan-firewall.sh` | Per-VLAN firewall rules (mgmt=allow, services=internet+mgmt, IoT=internet-only, guest=block-internal) |
+| `net-switch-vlan.sh` | Cisco SG300 VLAN configuration via SSH/expect |
 
 ## Security
 
 | Script | Description |
 |--------|-------------|
-| `pve-hardening.sh` | fail2ban install, SSH key-only enforcement, default password audit, boot order + auto-start |
+| `pve-hardening.sh` | fail2ban + CrowdSec bouncer, GeoIP blocking, phased SSH hardening (week 1: password+fail2ban, week 2: add keys, week 3: disable password), default password audit, boot order + auto-start |
 | `pve-secrets-gen.sh` | Automated credential/token generation for all services |
 | `pve-cold-reboot-test.sh` | Full lab reboot test — validate all services recover automatically |
+| `pve-alerting.sh` | Alerting pipeline — SMTP config for PVE/PBS/OPNsense, push notifications |
+| `pve-auto-update.sh` | Automated OS/container updates with staging and maintenance windows |
+| `pve-telemetry-audit.sh` | Scan VMs/CTs for telemetry endpoints, generate firewall block rules |
+| `pve-encryption-verify.sh` | Verify LUKS on data drives, SSH key strengths, TLS versions |
+| `security-baseline-check.sh` | Comprehensive security posture check (passwords, ports, services, firewall) |
+| `pve-preflight.sh` | Pre-deployment validation — BIOS via dmidecode, network, ISO checksums, disk health |
 
 ## Validation
 
@@ -46,6 +63,8 @@ Ideas sourced from homelab v1 reference code and project roadmap.
 | `pve-cutover-validate.sh` | Pre/post network cutover health checks (DNS, DHCP, VLANs, FQDN, services) |
 | `lib/network-check.sh` | Network validation helpers — `check_ping`, `check_port`, `check_url`, `poll_url` |
 | `lib/healthcheck.sh` | Post-deployment health validation framework for all roles |
+| `pve-vlan-isolation-test.sh` | Automated VLAN isolation matrix testing (cross-VLAN pings, verify blocks) |
+| `pve-bandwidth-test.sh` | Inter-node/inter-VLAN bandwidth testing via iperf3 |
 
 ## Clustering
 
